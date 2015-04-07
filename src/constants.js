@@ -1,0 +1,6 @@
+var Constants = {
+  SCREEN_WIDTH: 80,
+  SCREEN_HEIGHT: 50,
+  WALL_COLOR: "#001360",
+  GROUND_COLOR: "#9b972f"
+};
