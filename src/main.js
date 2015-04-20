@@ -8,7 +8,7 @@ var Game = {
   init: function() {
     ROT.DEFAULT_WIDTH = Constants.SCREEN_WIDTH;
     ROT.DEFAULT_HEIGHT = Constants.SCREEN_HEIGHT;
-    this.display = new ROT.Display();
+    this.display = new ROT.Display({spacing: 1.1});
     document.body.appendChild(this.display.getContainer());
     this.map = new Map();
     this.map.buildMap();
@@ -20,10 +20,9 @@ var Game = {
   
   render: function () {
     this.display.clear();
+//    if(this.player.hasMoved)
+//      this.player.computeFOV();
     this.map.render();
-    for(i = 0; i < Game.actors.length; i++) {
-      Game.actors[i].render();
-    }
   }
 };
 

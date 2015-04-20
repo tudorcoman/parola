@@ -14,5 +14,4 @@ Actor.prototype.act = function () {
 
 Actor.prototype.render = function () {
   Game.display.draw(this.x, this.y, this.ch, this.fg, this.bg);
-  console.log(this.ch);
 };
