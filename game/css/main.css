@@ -5,3 +5,18 @@ body {
   background-color: #00030c;
   color: white;
 }
+.initModal {
+  display: none;
+}
+.bold {
+  font-weight: bold;
+}
+.cyan {
+  color: darkturquoise;
+}
+.lime {
+  color: chartreuse;
+}
+.gray {
+  color: gray;
+}

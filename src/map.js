@@ -1,3 +1,4 @@
+/* Map - harta jocului. Hiecare harta tine minte actorii de pe ea */
 var Map = function (width, height, type) {
   this.width = width || ROT.DEFAULT_WIDTH;
   this.height = height || ROT.DEFAULT_HEIGHT;
@@ -18,14 +19,22 @@ Map.prototype.buildMap = function() {
   var explored = this.explored;
   this.creator.create(function(x, y, wall) {
     walls[x + "," + y] = wall;
+    
     if(!wall)
       freeCells.push(x + "," + y);
   });
   for (i = 0; i < this.creator.getRooms().length; i++) {
     var room = this.creator.getRooms()[i];
     var actors = this.actors;
-    room.getDoors(function (x, y){
-      var door = new Actor(x, y, "+", "usa", true, "white", "brown");
+    room.getDoors(function (x, y) {
+      var door = new Actor(x, y, "+", "%c{#a52a2a}usa%c{}", true, "white", "brown");
+      var doorCallback = function () {
+        door.ch = '/';
+        door.bg = "rgba(0, 0, 0, 0)";
+        door.fg = "brown";
+        door.blocks = false;
+      };
+      door.interactable = new Interactable("deschide", doorCallback, null);
       actors[x + "," + y] = door;
     });
   }
@@ -52,12 +61,14 @@ Map.prototype.render = function () {
         var coords = Game.player.tilesInFOV[k].split(",");
         var x = parseInt(coords[0]);
         var y = parseInt(coords[1]);
-        if(actors[x + "," + y])
-          actors[x + "," + y].render();
+        if(actors[x + "," + y]) {
+            actors[x + "," + y].render();
+        }
       }
     }
   }
 };
+
 
 Map.prototype.isWall = function (x, y) {
   return this.walls[x + "," + y];

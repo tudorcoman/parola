@@ -3,18 +3,44 @@
   <head>
     <title>Gaseste parola</title>
     <script src="../lib/jQuery.min.js"></script>
+    <script src="../lib/vex/vex.combined.min.js"></script>
+    <script>vex.defaultOptions.className = 'vex-theme-bottom-right-corner';</script>
     <script src="../lib/rot.js"></script>
     <script src="../src/constants.js"></script>
+    <script src="../src/interactable.js"></script>
     <script src="../src/map.js"></script>
     <script src="../src/actor.js"></script>
     <script src="../src/player.js"></script>
+    <script src="../src/gui.js"></script>
     <script src="../src/main.js"></script>
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="../lib/vex/vex.css" />
+    <link rel="stylesheet" href="../lib/vex/vex-theme-bottom-right-corner.css" />
   </head>
 
   <body>
     <header>
-      <h1>Gaseste parola de la WI-FI!</h1>
+      <h3>Gaseste pergamentul</h3>
     </header>
+    <div class="initModal">
+      <h3>Bun venit, exploratorule!</h3>
+      <p>
+        Tu esti un <span class="bold lime">elev curajos</span> care a intrat in <span class="bold gray">catacombele de sub scoala</span> pentru a gasi <span class="bold cyan">pergamentul magic</span> cu parola de la WI-FI.
+      </p>
+      <p>Mult succes!</p>
+      <h2>Cum se joaca:</h2>
+      <ol>
+        <li>Taste:</li>
+        <ul>
+          <li><code>W, A, S, D</code> pentru miscare</li>
+          <li><code>E</code> pentru a interactiona cu un obiect</li>
+          <li><code>I</code> pentru a vedea ce ai in buzunar. (a.k.a inventory)</li>
+        </ul>
+        <li>
+          Scopul tau este sa gasesti pergamentul si sa il citesti.
+        </li>
+      </ol>
+    </div>
+
   </body>
 </html>
