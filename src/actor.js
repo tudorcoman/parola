@@ -14,7 +14,7 @@ var Actor = function (x, y, ch, name, blocks, fg, bg) {
 };
 
 Actor.prototype.act = function () { // Functie care schimba avanseaza simularea
-  
+
 };
 
 Actor.prototype.render = function () { // Deseneaza actorul pe ecran

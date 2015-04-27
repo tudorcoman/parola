@@ -31,33 +31,25 @@ Player.prototype.handleEvent = function (e) {
   movementKeyMap[ROT.VK_LEFT] = 6;
   movementKeyMap[ROT.VK_HOME] = 7;
   var key = e.keyCode;
-  
+
   if(key in movementKeyMap) {
     this.direction = movementKeyMap[key];
     var coords = ROT.DIRS[8][movementKeyMap[key]];
     var newX = this.x + coords[0];
     var newY = this.y + coords[1];
-    var intX = newX + coords[0];
-    var intY = newY + coords[1];
+    var intX, intY;
 
     if(Game.map.isWallkable(newX, newY)) {
-      Game.map.actors[this.x + "," + this.y] = undefined;
-      Game.map.actors[newX + "," + newY] = this;
       this.x = newX;
       this.y = newY;
       this.hasMoved = true;
     } else {
       this.hasMoved = false;
     }
-    var interactable1 = Game.map.actors[intX + "," + intY];
-    var interactable2 = Game.map.actors[newX + "," + newY];
-    var interactable = null;
-    if(interactable1 && interactable1.interactable) {
-      interactable = interactable1;
-    } else if(interactable2 && interactable2.interactable) {
-      interactable = interactable2;
-    }
-    if(interactable) {
+    intX = this.x + coords[0];
+    intY = this.y + coords[1];
+    var interactable = Game.map.actorAt(intX, intY);
+    if(interactable && interactable.interactable) {
       Game.gui.message("Apasa \"E\" pentru a " + interactable.interactable.onInteractText + " "  + interactable.name + ".");
       this.interactableNear = interactable.interactable;
     } else {
@@ -67,7 +59,7 @@ Player.prototype.handleEvent = function (e) {
     var letter = String.fromCharCode(key);
     switch(letter) {
       case 'E':
-        if(this.interactableNear) 
+        if(this.interactableNear)
           this.interactableNear.interact();
         break;
     }
@@ -82,7 +74,7 @@ Player.prototype.computeFOV = function() {
     return (Game.map.isWallkable(x, y));
     return (Game.map.isWallkable(x, y));
   };
-  
+
   var FOVRenderer = new ROT.FOV.RecursiveShadowcasting(FOVCallback);
   var exploredTiles = this.exploredTiles;
   this.tilesInFOV = [];
@@ -111,5 +103,5 @@ function createPlayer(freeCells) {
   var x = parseInt(coords[0]);
   var y = parseInt(coords[1]);
   Game.player = new Player(x, y, '@', "player", true, "white", Constants.GROUND_COLOR);
-  Game.map.actors[x + "," + y] = Game.player;
+  Game.map.actors.push(Game.player);
 };
