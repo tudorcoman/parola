@@ -26,6 +26,15 @@ Map.prototype.buildMap = function() {
   for (i = 0; i < this.creator.getRooms().length; i++) {
     var room = this.creator.getRooms()[i];
     var actors = this.actors;
+    var freeRoomCells = [];
+    for (x = room.getLeft() + 1; x < room.getRight(); x++) {
+      for(y = room.getTop() + 1; y < room.getBottom(); y++)
+        freeRoomCells.push(x + "," + y);
+    }
+    freeRoomCells = this.generateMonsters(freeRoomCells);
+    freeCells = freeCells.filter(function (item) {
+      return freeRoomCells.indexOf(item) === -1;
+    });
     room.getDoors(function (x, y) {
       var door = new Actor(x, y, "+", "%c{#a52a2a}usa%c{}", true, "white", "brown");
       var doorCallback = function () {
@@ -38,35 +47,37 @@ Map.prototype.buildMap = function() {
       actors.push(door);
     });
   }
+  freeCells = this.generateMonsters(freeCells);
   createPlayer(freeCells);
 }
+
+Map.prototype.generateMonsters = function (freeCells) {
+  var i = 0;
+  var j = 0;
+  while(j < Constants.MAX_ROOM_MONSTERS && i < freeCells.length) {
+    var prob = ROT.RNG.getPercentage();
+    var monster = null;
+    var x = parseInt(freeCells[i].split(",")[0]);
+    var y = parseInt(freeCells[i].split(",")[1]);
+    if(prob < 80) {
+      monster = new Actor(x, y, 'p', "paznic", true, "blue", null);
+      monster.destructible = new Destructible(3, 1, "paznic lesinat", '%', "white", "cornflowerblue");
+    } else {
+      monster = new Actor(x, y, 'D', "directoare", true, "red", null);
+      monster.destructible = new Destructible(5, 1, "directoare lesinate", '%', "darkred");
+    }
+    this.actors.push(monster);
+    freeCells.splice(i, 1);
+    i += 2;
+    j ++;
+  }
+  
+  return freeCells;
+};
 
 Map.prototype.render = function () {
   Game.player.computeFOV();
   var toRender = [];
-  // for (i = 0; i < this.height; i++) {
-  //   for (j = 0; j < this.width; j++) {
-  //     if(Game.player.isTileExplored(j, i)) {
-  //       var color = ROT.Color.fromString(this.isWall(j, i) ? Constants.WALL_COLOR : Constants.GROUND_COLOR);
-  //       if(this.isInFOV(j, i))
-  //         color = ROT.Color.multiply(color, ROT.Color.fromString("white"));
-  //       else
-  //         color = ROT.Color.multiply(color, ROT.Color.fromString("grey"));
-  //     } else {
-  //       color = ROT.Color.fromString("#00030c");
-  //     }
-  //     Game.display.draw(j, i, null, null, ROT.Color.toHex(color));
-  //     var actors = this.actors;
-  //     for(k = 0; k < Game.player.tilesInFOV.length; k++) {
-  //       var coords = Game.player.tilesInFOV[k].split(",");
-  //       var x = parseInt(coords[0]);
-  //       var y = parseInt(coords[1]);
-  //       if(actors[x + "," + y]) {
-  //           actors[x + "," + y].render();
-  //       }
-  //     }
-  //   }
-  // }
   for (x = 0; x < this.width; x++) {
     for (y = 0; y < this.height; y++) {
       if(Game.player.isTileExplored(x, y)) {

@@ -103,5 +103,6 @@ function createPlayer(freeCells) {
   var x = parseInt(coords[0]);
   var y = parseInt(coords[1]);
   Game.player = new Player(x, y, '@', "player", true, "white", Constants.GROUND_COLOR);
+  Game.player.destructible = new Destructible(20, 3, "jucator lesinat", "%", "black", "white");
   Game.map.actors.push(Game.player);
 };

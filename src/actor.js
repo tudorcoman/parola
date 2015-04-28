@@ -11,6 +11,10 @@ var Actor = function (x, y, ch, name, blocks, fg, bg) {
   if(this.bg == null)
     this.bg = Constants.GROUND_COLOR;
   this.interactable = null;
+  this.destructible = null;
+  this.attacker = null;
+  this.pickable = null;
+  this.ai = null;
 };
 
 Actor.prototype.act = function () { // Functie care schimba avanseaza simularea
