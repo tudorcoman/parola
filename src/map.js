@@ -54,7 +54,8 @@ Map.prototype.buildMap = function() {
 Map.prototype.generateMonsters = function (freeCells) {
   var i = 0;
   var j = 0;
-  while(j < Constants.MAX_ROOM_MONSTERS && i < freeCells.length) {
+  var nrMonsters = (ROT.RNG.getPercentage() * Constants.MAX_ROOM_MONSTERS) / 100;
+  while(j < nrMonsters && i < freeCells.length) {
     var prob = ROT.RNG.getPercentage();
     var monster = null;
     var x = parseInt(freeCells[i].split(",")[0]);
@@ -62,16 +63,21 @@ Map.prototype.generateMonsters = function (freeCells) {
     if(prob < 80) {
       monster = new Actor(x, y, 'p', "paznic", true, "blue", null);
       monster.destructible = new Destructible(3, 1, "paznic lesinat", '%', "white", "cornflowerblue");
+      monster.attacker = new Attacker(2);
     } else {
       monster = new Actor(x, y, 'D', "directoare", true, "red", null);
       monster.destructible = new Destructible(5, 1, "directoare lesinate", '%', "darkred");
+      monster.attacker = new Attacker(5);
     }
+    monster.ai = new Ai(function (owner) {
+      AiTypes.MonsterAi(owner);
+    }, monster);
     this.actors.push(monster);
     freeCells.splice(i, 1);
     i += 2;
     j ++;
   }
-  
+
   return freeCells;
 };
 

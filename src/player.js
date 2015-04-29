@@ -14,10 +14,14 @@ var Player = function (x, y, ch, name, blocks, fg, bg) {
 
 Player.prototype = Object.create(Actor.prototype);
 
-Player.prototype.act = function () {
+Player.prototype.updateAi = function () {
   Game.engine.lock(); // Asteapta sa se intample ceva
   window.addEventListener("keydown", this);
   Game.render();
+};
+
+Player.prototype.act = function () {
+  this.ai.update();
 };
 
 Player.prototype.handleEvent = function (e) {
@@ -43,6 +47,10 @@ Player.prototype.handleEvent = function (e) {
       this.x = newX;
       this.y = newY;
       this.hasMoved = true;
+      for(actor in Game.map.actors) {
+        if(Game.map.isInFOV(actor.x, actor.y) && actor.ai)
+          actor.ai.update();
+      }
     } else {
       this.hasMoved = false;
     }
@@ -104,5 +112,7 @@ function createPlayer(freeCells) {
   var y = parseInt(coords[1]);
   Game.player = new Player(x, y, '@', "player", true, "white", Constants.GROUND_COLOR);
   Game.player.destructible = new Destructible(20, 3, "jucator lesinat", "%", "black", "white");
+  Game.player.attacker = new Attacker(3);
+  Game.player.ai = new Ai(Game.player.updateAi.bind(Game.player), Game.player);
   Game.map.actors.push(Game.player);
 };
