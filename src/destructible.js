@@ -15,16 +15,24 @@ var Destructible = function (initialHp, defense, corpseName, corpseCh, corpseFg,
 
 Destructible.prototype.takeDamage = function (owner, actor, hpAmount) {
   if(actor.destructible) {
-    var targetDmg = hpAmount - defense;
+    var targetDmg = hpAmount - this.defense;
     if(targetDmg < 0)
       targetDmg = 0;
     this.hp -= targetDmg;
     if(this.hp <= 0) {
       this.isDead = true;
-      owner.ch = corpseCh;
-      owner.fg = corpseFg;
-      owner.Bg = corpseBg;
+      owner.ch = this.corpseCh;
+      owner.fg = this.corpseFg;
+      owner.Bg = this.corpseBg;
       owner.ai = null;
+      owner.blocks = false;
     }
+  } else {
+    console.warn("Actor is not destructible.");
+    console.warn(actor);
   }
+};
+
+Destructible.prototype.isDead = function () {
+  return this.hp == 0;
 };

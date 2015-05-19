@@ -15,10 +15,12 @@ var Actor = function (x, y, ch, name, blocks, fg, bg) {
   this.attacker = null;
   this.pickable = null;
   this.ai = null;
+  this.direction = 1;
 };
 
-Actor.prototype.act = function () { // Functie care schimba avanseaza simularea
-
+Actor.prototype.act = function () { // Functie care avanseaza simularea
+  if(this.ai)
+    this.ai.update(this);
 };
 
 Actor.prototype.render = function () { // Deseneaza actorul pe ecran

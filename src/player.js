@@ -10,60 +10,24 @@ var Player = function (x, y, ch, name, blocks, fg, bg) {
   this.tilesInFOV = [];
   this.isInFOV = [];
   this.interactableNear = null;
+  this.lastKey = null;
 };
 
-Player.prototype = Object.create(Actor.prototype);
+Player.extend(Actor);
 
 Player.prototype.act = function () {
-  Game.engine.lock(); // Asteapta sa se intample ceva
-  window.addEventListener("keydown", this);
-  Game.render();
+  if(this.destructible.hp > 0) {
+    Game.engine.lock(); // Asteapta sa se intample ceva
+    window.addEventListener("keydown", this);
+    this.ai.update(this);
+    if(this.hasMoved)
+      Game.update();
+    Game.render();
+  }
 };
 
 Player.prototype.handleEvent = function (e) {
-  var movementKeyMap = [];
-  movementKeyMap[ROT.VK_UP] = 0;
-  movementKeyMap[ROT.VK_PAGE_UP] = 1;
-  movementKeyMap[ROT.VK_RIGHT] = 2;
-  movementKeyMap[ROT.VK_PAGE_DOWN] = 3;
-  movementKeyMap[ROT.VK_DOWN] = 4;
-  movementKeyMap[ROT.VK_END] = 5;
-  movementKeyMap[ROT.VK_LEFT] = 6;
-  movementKeyMap[ROT.VK_HOME] = 7;
-  var key = e.keyCode;
-
-  if(key in movementKeyMap) {
-    this.direction = movementKeyMap[key];
-    var coords = ROT.DIRS[8][movementKeyMap[key]];
-    var newX = this.x + coords[0];
-    var newY = this.y + coords[1];
-    var intX, intY;
-
-    if(Game.map.isWallkable(newX, newY)) {
-      this.x = newX;
-      this.y = newY;
-      this.hasMoved = true;
-    } else {
-      this.hasMoved = false;
-    }
-    intX = this.x + coords[0];
-    intY = this.y + coords[1];
-    var interactable = Game.map.actorAt(intX, intY);
-    if(interactable && interactable.interactable) {
-      Game.gui.message("Apasa \"E\" pentru a " + interactable.interactable.onInteractText + " "  + interactable.name + ".");
-      this.interactableNear = interactable.interactable;
-    } else {
-      this.interactableNear = null;
-    }
-  } else {
-    var letter = String.fromCharCode(key);
-    switch(letter) {
-      case 'E':
-        if(this.interactableNear)
-          this.interactableNear.interact();
-        break;
-    }
-  }
+  this.lastKey = e.keyCode;
   window.removeEventListener("keydown", this);
   Game.engine.unlock();
 };
@@ -81,7 +45,7 @@ Player.prototype.computeFOV = function() {
   var tilesInFOV = this.tilesInFOV;
   this.isInFOV = [];
   var isInFOV = this.tilesInFOV;
-  FOVRenderer.compute90(this.x, this.y, 5, this.direction, function(x, y, r, visibility) {
+  FOVRenderer.compute(this.x, this.y, 5, function(x, y, r, visibility) {
     var color = ROT.Color.fromString(Game.map.isWallkable(x, y) ? Constants.WALL_COLOR : Constants.GROUND_COLOR);
     color = ROT.Color.multiply(color, ROT.Color.fromString("white"));
     Game.display.draw(x, y, null, null, ROT.Color.toHex(color));
@@ -103,6 +67,8 @@ function createPlayer(freeCells) {
   var x = parseInt(coords[0]);
   var y = parseInt(coords[1]);
   Game.player = new Player(x, y, '@', "player", true, "white", Constants.GROUND_COLOR);
-  Game.player.destructible = new Destructible(20, 3, "jucator lesinat", "%", "black", "white");
+  Game.player.destructible = new Destructible(30, 2, "jucator lesinat", "%", "black", "white");
+  Game.player.attacker = new Attacker(5);
+  Game.player.ai = new PlayerAi();
   Game.map.actors.push(Game.player);
 };

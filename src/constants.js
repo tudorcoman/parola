@@ -9,6 +9,8 @@ var Constants = {
   DISPLAY_OPTIONS: {
     spacing: "1.1",
     fontSize: "13",
-    fontFamily: "Courier New"
+    fontFamily: "Courier New",
+    fontStyle: "bold"
   },
+  MONSTER_TRACKING_TURNS: 3
 };

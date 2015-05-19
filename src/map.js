@@ -61,11 +61,14 @@ Map.prototype.generateMonsters = function (freeCells) {
     var y = parseInt(freeCells[i].split(",")[1]);
     if(prob < 80) {
       monster = new Actor(x, y, 'p', "paznic", true, "blue", null);
-      monster.destructible = new Destructible(3, 1, "paznic lesinat", '%', "white", "cornflowerblue");
+      monster.destructible = new Destructible(3, 1, "paznic lesinat", '%', "white", "blue");
+      monster.attacker = new Attacker(3);
     } else {
       monster = new Actor(x, y, 'D', "directoare", true, "red", null);
-      monster.destructible = new Destructible(5, 1, "directoare lesinate", '%', "darkred");
+      monster.destructible = new Destructible(5, 1, "directoare lesinate", '%', "red");
+      monster.attacker = new Attacker(5);
     }
+    monster.ai = new MonsterAi();
     this.actors.push(monster);
     freeCells.splice(i, 1);
     i += 2;
@@ -115,8 +118,18 @@ Map.prototype.isWall = function (x, y) {
 };
 
 Map.prototype.isWallkable = function (x, y) {
-
-  return !(this.isWall(x, y) || (this.actorAt(x, y) && this.actorAt(x, y).blocks));
+  var blocks = false;
+  for(i = 0; i < this.actors.length; i++) {
+    var actor = this.actors[i];
+    if(actor.x == x && actor.y == y)
+      if(actor.blocks == false)
+        blocks = false;
+      else
+        blocks = true;
+  }
+  if(blocks == false && !this.isWall(x, y))
+    return true;
+  return false;
 };
 
 Map.prototype.isInFOV = function(x, y) {

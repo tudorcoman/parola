@@ -5,6 +5,7 @@ var Game = {
   map : null,
   actors: [],
   gui: null,
+  scheduler: null,
   showModal: true,
   
   init: function() {
@@ -15,12 +16,18 @@ var Game = {
     this.map = new Map();
     this.map.buildMap();
     this.gui = new Gui(0, 0);
-    var scheduler = new ROT.Scheduler.Simple();
-    scheduler.add(this.player, true);
-    this.engine = new ROT.Engine(scheduler);
+    this.scheduler = new ROT.Scheduler.Simple();
+    this.scheduler.add(this.player, true);
+    this.engine = new ROT.Engine(this.scheduler);
     this.engine.start();
   },
-  
+  update: function () {
+    for (i = 0; i < this.map.actors.length; i++) {
+      var actor = this.map.actors[i];
+      if(actor != Game.player)
+        actor.act();
+    }
+  },
   render: function () {
     this.display.clear();
     this.map.render();
