@@ -11,17 +11,25 @@
     <script src="../src/destructible.js"></script>
     <script src="../src/attacker.js"></script>
     <script src="../src/ai.js"></script>
+    <script src="../src/container.js"></script>
+    <script src="../src/pickable.js"></script>
     <script src="../src/map.js"></script>
     <script src="../src/actor.js"></script>
     <script src="../src/player.js"></script>
     <script src="../src/gui.js"></script>
     <script src="../src/main.js"></script>
+    <script src="../src/flakes.js"></script>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="../lib/vex/vex.css" />
     <link rel="stylesheet" href="../lib/vex/vex-theme-bottom-right-corner.css" />
   </head>
 
   <body>
+    <audio id="wastedaudio" src="wasted.mp3"></audio>
+    <div id="overlay">
+      <img src="wasted.png" id="endtext" />
+    </div>
+    <canvas id="confetti"></canvas>
     <header>
       <h3>Gaseste pergamentul</h3>
     </header>
@@ -35,7 +43,7 @@
       <ol>
         <li>Taste:</li>
         <ul>
-          <li><code>W, A, S, D</code> pentru miscare</li>
+          <li><code>Sageti</code> pentru miscare</li>
           <li><code>E</code> pentru a interactiona cu un obiect</li>
           <li><code>I</code> pentru a vedea ce ai in buzunar. (a.k.a inventory)</li>
         </ul>

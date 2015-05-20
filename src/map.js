@@ -31,17 +31,33 @@ Map.prototype.buildMap = function() {
       for(y = room.getTop() + 1; y < room.getBottom(); y++)
         freeRoomCells.push(x + "," + y);
     }
+    if(!Game.pergamentOnMap && ROT.RNG.getUniformInt(0, 1) == 1) {
+        Game.pergamentOnMap = true;
+        var x, y;
+        do {
+          x = ROT.RNG.getUniformInt(room.getLeft(), room.getRight());
+          y = ROT.RNG.getUniformInt(room.getTop(), room.getBottom());
+        } while(!Game.map.isWallkable(x, y));
+        var coord = x + "," + y;
+        var index = freeRoomCells.indexOf(coord);
+        if(index > -1)
+          freeRoomCells.splice(index, 1);
+        console.log(x + " " + y);
+        var pergament = new Actor(x, y, '=', "Pergament", false, "white", null);
+        pergament.pickable = new Pergament();
+        this.actors.push(pergament);
+    }
     freeRoomCells = this.generateMonsters(freeRoomCells);
     freeCells = freeCells.filter(function (item) {
       return freeRoomCells.indexOf(item) === -1;
     });
     room.getDoors(function (x, y) {
       var door = new Actor(x, y, "+", "%c{#a52a2a}usa%c{}", true, "white", "brown");
-      var doorCallback = function () {
-        door.ch = '/';
-        door.bg = "rgba(0, 0, 0, 0)";
-        door.fg = "brown";
-        door.blocks = false;
+      var doorCallback = function (owner) {
+        owner.ch = '/';
+        owner.bg = "rgba(0, 0, 0, 0)";
+        owner.fg = "brown";
+        owner.blocks = false;
       };
       door.interactable = new Interactable("deschide", doorCallback, null);
       actors.push(door);

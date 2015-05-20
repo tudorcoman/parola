@@ -14,6 +14,7 @@ var Actor = function (x, y, ch, name, blocks, fg, bg) {
   this.destructible = null;
   this.attacker = null;
   this.pickable = null;
+  this.container = null;
   this.ai = null;
   this.direction = 1;
 };

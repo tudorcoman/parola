@@ -16,21 +16,45 @@ var Player = function (x, y, ch, name, blocks, fg, bg) {
 Player.extend(Actor);
 
 Player.prototype.act = function () {
+  Game.engine.lock(); // Asteapta sa se intample ceva
+  window.addEventListener("keydown", this);
+  window.addEventListener("click", this);
   if(this.destructible.hp > 0) {
-    Game.engine.lock(); // Asteapta sa se intample ceva
-    window.addEventListener("keydown", this);
     this.ai.update(this);
-    if(this.hasMoved)
+    //if(this.hasMoved)
       Game.update();
     Game.render();
+  } else {
+    Game.gameOver();
   }
+  return true;
 };
 
 Player.prototype.handleEvent = function (e) {
-  this.lastKey = e.keyCode;
-  window.removeEventListener("keydown", this);
+  if(e.type == "keydown") {
+    this.lastKey = e.keyCode;
+    window.removeEventListener("keydown", this);
+  } else if(e.type == "click") {
+    this.handleClick(e);
+    window.removeEventListener("click", this);
+  }
   Game.engine.unlock();
 };
+
+Player.prototype.handleClick = function (e) {
+  var coords = Game.display.eventToPosition(e);
+  var x = coords[0];
+  var y = coords[1];
+  
+  var pickable;
+  var i = 0;
+  while(i < Game.map.actors.length && ((Game.map.actors[i].x != x && Game.map.actors[i].y != y) || Game.map.actors[i].pickable == null))
+    i++;
+  if(i < Game.map.actors.length) {
+    pickable = Game.map.actors[i];
+    pickable.pickable.pick(pickable, Game.player);
+  }
+}
 
 Player.prototype.computeFOV = function() {
   var FOVCallback = function(x, y) {
@@ -70,5 +94,6 @@ function createPlayer(freeCells) {
   Game.player.destructible = new Destructible(30, 2, "jucator lesinat", "%", "black", "white");
   Game.player.attacker = new Attacker(5);
   Game.player.ai = new PlayerAi();
+  Game.player.container = new Container(26);
   Game.map.actors.push(Game.player);
 };

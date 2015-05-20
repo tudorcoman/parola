@@ -59,23 +59,27 @@ PlayerAi.prototype.update = function (owner) {
     this.moveOrAttack(owner, newX, newY);
     intX = owner.x + coords[0];
     intY = owner.y + coords[1];
-    var interactable = Game.map.actorAt(intX, intY);
-    if(interactable && interactable.interactable) {
-      Game.gui.message("Apasa \"E\" pentru a " + interactable.interactable.onInteractText + " "  + interactable.name + ".");
-      owner.interactableNear = interactable;
+    var actor = Game.map.actorAt(intX, intY);
+    if(actor && actor.interactable) {
+      Game.gui.message("Apasa \"E\" pentru a " + actor.interactable.onInteractText + " "  + actor.name + ".");
+      owner.interactableNear = actor;
     } else {
       owner.interactableNear = null;
+    }
+    if(actor && actor.pickable) {
+      Game.gui.message("Da click pe " + actor.pickable.name + " pentru a-l colecta.");
     }
   } else {
     var letter = String.fromCharCode(key);
     switch(letter) {
       case 'E':
         if(owner.interactableNear && owner.interactableNear.interactable)
-          owner.interactableNear.interactable.interact();
+          owner.interactableNear.interactable.interact(owner.interactableNear);
         owner.interactableNear = null;
         break;
     }
   }
+  owner.lastKey = null;
 };
 
 var MonsterAi = function () {

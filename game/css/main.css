@@ -20,3 +20,34 @@ body {
 .gray {
   color: gray;
 }
+#overlay{
+  position: fixed;
+  background-color: black;
+  
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  
+  opacity: 0;
+}
+#confetti{
+  position: fixed;
+  background-color: black;
+  
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  
+  opacity: 0;
+}
+
+#endtext {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+  margin: auto;
+  opacity: 1;
+}

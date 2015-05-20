@@ -7,6 +7,7 @@ var Game = {
   gui: null,
   scheduler: null,
   showModal: true,
+  pergamentOnMap: false,
   
   init: function() {
     ROT.DEFAULT_WIDTH = Constants.SCREEN_WIDTH;
@@ -32,6 +33,15 @@ var Game = {
     this.display.clear();
     this.map.render();
     this.gui.render();
+  },
+  gameOver: function () {
+    document.getElementById("wastedaudio").play();
+    $("#overlay").animate({opacity: 0.7}, 7000);
+  },
+  win: function () {
+    $("#confetti").animate({opacity: 1}, 7000);
+    startFlakes();
+    $("title").text("YOU WIN!!!");
   }
 };
 
