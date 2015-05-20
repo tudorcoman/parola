@@ -54,7 +54,8 @@ Map.prototype.buildMap = function() {
 Map.prototype.generateMonsters = function (freeCells) {
   var i = 0;
   var j = 0;
-  while(j < Constants.MAX_ROOM_MONSTERS && i < freeCells.length) {
+  var nrMonsters = (ROT.RNG.getPercentage() * Constants.MAX_ROOM_MONSTERS) / 100;
+  while(j < nrMonsters && i < freeCells.length) {
     var prob = ROT.RNG.getPercentage();
     var monster = null;
     var x = parseInt(freeCells[i].split(",")[0]);
@@ -74,7 +75,7 @@ Map.prototype.generateMonsters = function (freeCells) {
     i += 2;
     j ++;
   }
-  
+
   return freeCells;
 };
 
