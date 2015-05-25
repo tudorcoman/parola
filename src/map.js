@@ -35,8 +35,8 @@ Map.prototype.buildMap = function() {
         Game.pergamentOnMap = true;
         var x, y;
         do {
-          x = ROT.RNG.getUniformInt(room.getLeft(), room.getRight());
-          y = ROT.RNG.getUniformInt(room.getTop(), room.getBottom());
+          x = ROT.RNG.getUniformInt(room.getLeft() + 1, room.getRight());
+          y = ROT.RNG.getUniformInt(room.getTop() + 1, room.getBottom());
         } while(!Game.map.isWallkable(x, y));
         var coord = x + "," + y;
         var index = freeRoomCells.indexOf(coord);
@@ -59,7 +59,7 @@ Map.prototype.buildMap = function() {
         owner.fg = "brown";
         owner.blocks = false;
       };
-      door.interactable = new Interactable("deschide", doorCallback, null);
+      door.interactable = new Interactable("deschide", doorCallback, door);
       actors.push(door);
     });
   }

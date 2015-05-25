@@ -26,8 +26,8 @@ var startFlakes = function () {
     //Lets draw the flakes
     function draw() {
         ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = "rgba(255, 255, 255, 0)";
-        ctx.font = "72pt Arial";
+        ctx.fillStyle = "red";
+        ctx.font = "bold 72pt Comic Sans MS";
         for (var i = 0; i < mp; i++) {
             var p = particles[i];
             ctx.beginPath();
@@ -36,6 +36,8 @@ var startFlakes = function () {
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p.x + p.tilt + p.r / 2, p.y + p.tilt);
             ctx.stroke(); // Draw it
+            var text = "YOU WIN!";
+            ctx.fillText(text, (canvas.width - text.length) / 2, canvas.height / 2);
         }
 
         update();

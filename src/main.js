@@ -46,6 +46,17 @@ var Game = {
 };
 
 $(function() {
+  var egg = new Egg();
+  egg.addCode("r,i,c,k,r,o,l,l", function () {
+    var rickrollhtml = '<video controls id="rickrollVideo">\
+                          <source src="rickroll.mp4">\
+                        </video>';
+    vex.defaultOptions.className = "vex-theme-flat-attack";
+    vex.dialog.alert({
+      message: rickrollhtml
+    });
+    document.getElementById("rickrollVideo").play();
+  }).listen();
   Game.init();
   if(Game.showModal) {
     vex.dialog.alert({
