@@ -50,6 +50,7 @@ PlayerAi.prototype.update = function (owner) {
   var key = owner.lastKey;
 
   if(key in movementKeyMap) {
+    Game.status = GAME_STATUS.NEW_TURN;
     owner.direction = movementKeyMap[key];
     var coords = ROT.DIRS[8][movementKeyMap[key]];
     var newX = owner.x + coords[0];
@@ -70,6 +71,7 @@ PlayerAi.prototype.update = function (owner) {
       Game.gui.message("Da click pe " + actor.pickable.name + " pentru a-l colecta.");
     }
   } else {
+    Game.status = GAME_STATUS.IDLE;
     var letter = String.fromCharCode(key);
     switch(letter) {
       case 'E':

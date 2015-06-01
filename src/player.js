@@ -21,7 +21,7 @@ Player.prototype.act = function () {
   window.addEventListener("click", this);
   if(this.destructible.hp > 0) {
     this.ai.update(this);
-    //if(this.hasMoved)
+    if(Game.status == GAME_STATUS.NEW_TURN)
       Game.update();
     Game.render();
   } else {

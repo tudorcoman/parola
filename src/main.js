@@ -1,3 +1,9 @@
+var GAME_STATUS = {
+  IDLE: 0,
+  NEW_TURN: 1,
+  END: 2
+};
+
 var Game = {
   display: null,
   engine: null,
@@ -8,6 +14,7 @@ var Game = {
   scheduler: null,
   showModal: true,
   pergamentOnMap: false,
+  status: GAME_STATUS.IDLE,
   
   init: function() {
     ROT.DEFAULT_WIDTH = Constants.SCREEN_WIDTH;
