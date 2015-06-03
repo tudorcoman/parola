@@ -49,6 +49,9 @@ var Game = {
     $("#confetti").animate({opacity: 1}, 7000);
     startFlakes();
     $("title").text("YOU WIN!!!");
+  },
+  godMode: function () {
+    Game.player.destructible.hp = 9999;
   }
 };
 
