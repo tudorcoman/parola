@@ -15,80 +15,81 @@ Map.prototype.buildMap = function() {
     case "digger":
       this.creator = new ROT.Map.Digger(this.width, this.height);
   }
-  var walls = this.walls;
+  var map = this;
   var explored = this.explored;
   this.creator.create(function(x, y, wall) {
-    walls[x + "," + y] = wall;
+    map.setWall(x, y, wall);
 
     if(!wall)
       freeCells.push(x + "," + y);
   });
-  for (i = 0; i < this.creator.getRooms().length; i++) {
-    var room = this.creator.getRooms()[i];
-    var actors = this.actors;
+  for (roomI = 0; roomI < this.creator.getRooms().length; roomI++) {
+    var room = this.creator.getRooms()[roomI];
+
     var freeRoomCells = [];
     for (x = room.getLeft() + 1; x < room.getRight(); x++) {
-      for(y = room.getTop() + 1; y < room.getBottom(); y++)
-        freeRoomCells.push(x + "," + y);
+      for (y = room.getTop() + 1; y < room.getBottom(); y++) {
+        var coords = x + "," + y;
+        freeRoomCells.push(coords);
+      }
     }
 
-    freeRoomCells = this.generateDoors(room, freeRoomCells);
+    var doors = this.generateDoors(room, freeCells);
 
+    var monsters = this.generateMonsters(freeRoomCells);
 
-    if(!Game.pergamentOnMap && ROT.RNG.getUniformInt(0, 1) == 1) {
-        Game.pergamentOnMap = true;
-        var x, y;
-        do {
-          x = ROT.RNG.getUniformInt(room.getLeft() + 1, room.getRight());
-          y = ROT.RNG.getUniformInt(room.getTop() + 1, room.getBottom());
-        } while(!Game.map.isWallkable(x, y));
-        var coord = x + "," + y;
-        var index = freeRoomCells.indexOf(coord);
-        if(index > -1)
-          freeRoomCells.splice(index, 1);
-        console.log(x + " " + y);
-        var pergament = new Actor(x, y, '=', "Pergament", false, "white", null);
-        pergament.pickable = new Pergament();
-        this.actors.push(pergament);
-    }
-    freeRoomCells = this.generateMonsters(freeRoomCells);
-    freeCells = freeCells.filter(function (item) {
-      return freeRoomCells.indexOf(item) === -1;
-    });
+    var doorI;
+    for (doorI = 0; doorI < doors.length; doorI++)
+      this.actors.push(doors[doorI]);
+    var monsterI;
+    for (monsterI = 0; monsterI < monsters.length; monsterI++)
+      this.actors.push(monsters[monsterI]);
   }
-  freeCells = this.generateMonsters(freeCells);
+  var randomIndex = ROT.RNG.getUniformInt(0, freeCells.length);
+  var coords = freeCells[randomIndex].split(",");
+  var pergx = parseInt(coords[0]);
+  var pergy = parseInt(coords[1]);
+  console.log(pergx + "," + pergy);
+  var pergamentActor = new Actor(pergx, pergy, "=", "pergament", false, "white", null);
+  var pergamentItem = new PergamentPickable();
+  pergamentActor.pickable = pergamentItem;
+  this.actors.push(pergamentActor);
   createPlayer(freeCells);
 }
 
-Map.prototype.generateDoors = function (room, freeRoomCells) {
+Map.prototype.generateDoors = function (room, freeCells) {
+  var doors = [];
   var actors = this.actors;
+  var noDoor = 0;
   room.getDoors(function (x, y) {
-    var door = new Actor(x, y, "+", "%c{#a52a2a}usa%c{}", true, "white", "brown");
-//      var doorCallback = function (owner) {
-//        owner.ch = '/';
-//        owner.bg = "rgba(0, 0, 0, 0)";
-//        owner.fg = "brown";
-//        owner.blocks = false;
-//      };
-//      door.interactable = new Interactable("deschide", doorCallback, door);
-    door.interactable = new Door(door);
-    actors.push(door);
-    var index = freeRoomCells.indexOf(x + "," + y);
-    if (index > -1)
-      freeRoomCells.splice(index, 1);
+    noDoor++;
+    var doorActor = new Actor(x, y, "+", "%c{#a52a2a}usa%c{}", true, "white", "brown");
+
+    doorActor.interactable = new Door(doorActor);
+    var coords = x + "," + y;
+    var index = 0;
+    while (index < freeCells.length && freeCells[index] != coords)
+      index++;
+    if (index >= freeCells.length)
+      index = -1;
+    if (index > -1) { // Daca nu este nici o usa acolo
+      doors.push(doorActor);
+      freeCells.splice(index, 1);
+    }
   });
-  return freeRoomCells;
+  return doors;
 };
 
-Map.prototype.generateMonsters = function (freeCells) {
+Map.prototype.generateMonsters = function (freeRoomCells) {
+  var monsters = [];
   var i = 0;
   var j = 0;
   var nrMonsters = (ROT.RNG.getPercentage() * Constants.MAX_ROOM_MONSTERS) / 100;
-  while(j < nrMonsters && i < freeCells.length) {
+  while(j < nrMonsters && i < freeRoomCells.length) {
     var prob = ROT.RNG.getPercentage();
     var monster = null;
-    var x = parseInt(freeCells[i].split(",")[0]);
-    var y = parseInt(freeCells[i].split(",")[1]);
+    var x = parseInt(freeRoomCells[i].split(",")[0]);
+    var y = parseInt(freeRoomCells[i].split(",")[1]);
     if(prob < 80) {
       monster = new Actor(x, y, 'p', "paznic", true, "blue", null);
       monster.destructible = new Destructible(3, 1, "paznic lesinat", '%', "white", "blue");
@@ -99,13 +100,13 @@ Map.prototype.generateMonsters = function (freeCells) {
       monster.attacker = new Attacker(5);
     }
     monster.ai = new MonsterAi();
-    this.actors.push(monster);
-    freeCells.splice(i, 1);
+    monsters.push(monster);
+    freeRoomCells.splice(i, 1);
     i += 2;
     j ++;
   }
 
-  return freeCells;
+  return monsters;
 };
 
 Map.prototype.render = function () {
@@ -142,6 +143,10 @@ Map.prototype.actorAt = function (x, y) {
       return this.actors[i];
   }
 };
+
+Map.prototype.setWall = function (x, y, isWall) {
+  this.walls[x + "," + y] = isWall;
+}
 
 Map.prototype.isWall = function (x, y) {
   return this.walls[x + "," + y] == 1 ? true : false;

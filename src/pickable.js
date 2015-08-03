@@ -22,17 +22,17 @@ Pickable.prototype.use = function (owner, wearer) {
   return false;
 };
 
-var Pergament = function () {
+var PergamentPickable = function () {
   Pickable.call(this, "Pergament");
 };
 
-Pergament.extend(Pickable);
+PergamentPickable.extend(Pickable);
 
-Pergament.prototype.pick = function (owner, wearer) {
+PergamentPickable.prototype.pick = function (owner, wearer) {
   Game.win();
 };
 
-Pergament.prototype.use = function (owner, wearer) {
+PergamentPickable.prototype.use = function (owner, wearer) {
   Game.win();
   Pickable.use(owner, wearer);
   return true;

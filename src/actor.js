@@ -7,9 +7,7 @@ var Actor = function (x, y, ch, name, blocks, fg, bg) {
   this.name = name;
   this.blocks = blocks;
   this.fg = fg;
-  this.bg = bg;
-  if(this.bg == null)
-    this.bg = Constants.GROUND_COLOR;
+  this.bg = bg || Constants.GROUND_COLOR;
   this.interactable = null;
   this.destructible = null;
   this.attacker = null;

@@ -27,7 +27,7 @@ var startFlakes = function () {
     function draw() {
         ctx.clearRect(0, 0, W, H);
         ctx.fillStyle = "red";
-        ctx.font = "bold 72pt Comic Sans MS";
+        ctx.font = "bold 72pt sans-serif";
         for (var i = 0; i < mp; i++) {
             var p = particles[i];
             ctx.beginPath();

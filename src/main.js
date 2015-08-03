@@ -18,12 +18,12 @@ var Game = {
   
   init: function() {
     ROT.DEFAULT_WIDTH = Constants.SCREEN_WIDTH;
-    ROT.DEFAULT_HEIGHT = Constants.SCREEN_HEIGHT;
+    ROT.DEFAULT_HEIGHT = Constants.SCREEN_HEIGHT + Constants.GUI_PANEL_HEIGHT;
     this.display = new ROT.Display(Constants.DISPLAY_OPTIONS);
     document.body.appendChild(this.display.getContainer());
-    this.map = new Map();
+    this.map = new Map(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
     this.map.buildMap();
-    this.gui = new Gui(0, 0);
+    this.gui = new Gui(0, Constants.SCREEN_HEIGHT);
     this.scheduler = new ROT.Scheduler.Simple();
     this.scheduler.add(this.player, true);
     this.engine = new ROT.Engine(this.scheduler);

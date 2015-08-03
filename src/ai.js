@@ -62,13 +62,13 @@ PlayerAi.prototype.update = function (owner) {
     intY = owner.y + coords[1];
     var actor = Game.map.actorAt(intX, intY);
     if(actor && actor.interactable) {
-      Game.gui.message("Apasa \"E\" pentru a " + actor.interactable.onInteractText + " "  + actor.name + ".");
+      Game.gui.message("Apasa \"E\" pentru a " + actor.interactable.onInteractText + " " + actor.name + ".");
       owner.interactableNear = actor;
     } else {
       owner.interactableNear = null;
     }
     if(actor && actor.pickable) {
-      Game.gui.message("Da click pe " + actor.pickable.name + " pentru a-l colecta.");
+      Game.gui.message("Da click pe %c{" + actor.fg + "}" + actor.pickable.name + "%c{} pentru a-l colecta.");
     }
   } else {
     Game.status = GAME_STATUS.IDLE;
