@@ -13,5 +13,6 @@ var Constants = {
     fontFamily: "Courier New",
     fontStyle: "bold"
   },
-  MONSTER_TRACKING_TURNS: 3
+  MONSTER_TRACKING_TURNS: 3,
+  PLAYER_DEFAULT_HP: 30
 };

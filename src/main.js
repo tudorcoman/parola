@@ -11,6 +11,8 @@ var Game = {
   map : null,
   actors: [],
   gui: null,
+  guiMessenger: null,
+  guiHpBar: null,
   scheduler: null,
   showModal: true,
   pergamentOnMap: false,
@@ -24,10 +26,18 @@ var Game = {
     this.map = new Map(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
     this.map.buildMap();
     this.gui = new Gui(0, Constants.SCREEN_HEIGHT);
+    this.guiHpBar = new GuiBar(2, Constants.SCREEN_HEIGHT + 1, Game.player.destructible.hp, "red");
+    this.gui.addWidget(this.guiHpBar);
+    var hpLabel = new GuiLabel(this.guiHpBar.x + (Constants.PLAYER_DEFAULT_HP - ("HP".length)) / 2, Constants.SCREEN_HEIGHT + 1, "%b{red}HP%b{}");
+    this.gui.addWidget(hpLabel);
+    this.guiMessenger = new GuiMessageList(this.guiHpBar.x + Constants.PLAYER_DEFAULT_HP + 2, Constants.SCREEN_HEIGHT);
+    this.gui.addWidget(this.guiMessenger);
     this.scheduler = new ROT.Scheduler.Simple();
     this.scheduler.add(this.player, true);
     this.engine = new ROT.Engine(this.scheduler);
     this.engine.start();
+
+    this.guiMessenger.message("%c{lime}Bine ai venit, exploratorule!%c{}");
   },
   update: function () {
     for (i = 0; i < this.map.actors.length; i++) {
