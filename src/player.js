@@ -27,6 +27,7 @@ Player.prototype.act = function () {
   } else {
     Game.gameOver();
   }
+  Game.guiHpBar.setValue(this.destructible.hp);
   return true;
 };
 
@@ -45,7 +46,7 @@ Player.prototype.handleClick = function (e) {
   var coords = Game.display.eventToPosition(e);
   var x = coords[0];
   var y = coords[1];
-  
+
   var pickable;
   var i = 0;
   while(i < Game.map.actors.length && ((Game.map.actors[i].x != x && Game.map.actors[i].y != y) || Game.map.actors[i].pickable == null))

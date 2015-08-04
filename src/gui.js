@@ -35,13 +35,13 @@ GuiLabel.prototype.render = function () {
 var GuiMessageList = function (x, y) {
   GuiWidget.call(this, x, y);
 
-  this.messages = [];
+  this._messages = [];
 };
 
 GuiMessageList.extend(GuiWidget);
 
 GuiMessageList.prototype.message = function (text) {
-  this.messages.push(text);
+  this._messages.push(text);
 };
 
 GuiMessageList.prototype.render = function () {
@@ -50,8 +50,8 @@ GuiMessageList.prototype.render = function () {
 
 GuiMessageList.prototype._renderMessages = function () {
   for(i = 3; i > 0; i--) {
-    if(this.messages[this.messages.length - i])
-      Game.display.drawText(this.x, this.y + (3 - i), this.messages[this.messages.length - i]);
+    if(this._messages[this._messages.length - i])
+      Game.display.drawText(this.x, this.y + (3 - i), this._messages[this._messages.length - i]);
   }
 };
 
@@ -74,4 +74,27 @@ GuiBar.prototype.render = function () {
   for (i = 0; i < this.value; i++) {
     Game.display.draw(this.x + i, this.y, null, null, this.color);
   }
+};
+
+var GuiList = function (x, y, title, list) {
+  GuiWidget.call(this, x, y);
+  this._title = title;
+  this._list = list;
+};
+
+GuiList.extend(GuiWidget);
+
+GuiList.prototype.setList = function (list) {
+  this._list = list;
+};
+
+GuiList.prototype.render = function () {
+  Game.display.draw(this.x, this.y, this._title);
+
+  var nextY = this.y + 2;
+  var aCode = "a".charCodeAt(0);
+  var guiList = this;
+  this._list.forEach(function (item, index) {
+    Game.display.draw(guiList.x, nextY + index, String.fromCharCode(aCode + index) + ") " + item.name.capitalize());
+  });
 };

@@ -14,6 +14,10 @@ Map.prototype.buildMap = function() {
   switch(this.type) {
     case "digger":
       this.creator = new ROT.Map.Digger(this.width, this.height);
+      break;
+    case "dungeon":
+      this.creator = new ROT.Map.Dungeon(this.width, this.height);
+      break;
   }
   var map = this;
   var explored = this.explored;

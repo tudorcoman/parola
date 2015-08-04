@@ -6,6 +6,7 @@ var GAME_STATUS = {
 
 var Game = {
   display: null,
+  invetoryPanel: null,
   engine: null,
   player: null,
   map : null,
@@ -17,21 +18,31 @@ var Game = {
   showModal: true,
   pergamentOnMap: false,
   status: GAME_STATUS.IDLE,
-  
+
   init: function() {
-    ROT.DEFAULT_WIDTH = Constants.SCREEN_WIDTH;
+    // Init display
+    ROT.DEFAULT_WIDTH = Constants.SCREEN_WIDTH + Constants.INVENTORY_PANEL_WIDTH;
     ROT.DEFAULT_HEIGHT = Constants.SCREEN_HEIGHT + Constants.GUI_PANEL_HEIGHT;
     this.display = new ROT.Display(Constants.DISPLAY_OPTIONS);
-    document.body.appendChild(this.display.getContainer());
-    this.map = new Map(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+    $(".gameContainer").append(this.display.getContainer());
+    // Init map
+    this.map = new Map(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, "digger");
     this.map.buildMap();
+    // Init GUI
     this.gui = new Gui(0, Constants.SCREEN_HEIGHT);
-    this.guiHpBar = new GuiBar(2, Constants.SCREEN_HEIGHT + 1, Game.player.destructible.hp, "red");
+    // Init GUI Widgets
+    this.guiHpBar = new GuiBar(2, Constants.SCREEN_HEIGHT + 2, Game.player.destructible.hp, "red");
     this.gui.addWidget(this.guiHpBar);
-    var hpLabel = new GuiLabel(this.guiHpBar.x + (Constants.PLAYER_DEFAULT_HP - ("HP".length)) / 2, Constants.SCREEN_HEIGHT + 1, "%b{red}HP%b{}");
+
+    var hpLabel = new GuiLabel(this.guiHpBar.x + (Constants.PLAYER_DEFAULT_HP - ("HP".length)) / 2, Constants.SCREEN_HEIGHT + 1, "HP");
     this.gui.addWidget(hpLabel);
+
     this.guiMessenger = new GuiMessageList(this.guiHpBar.x + Constants.PLAYER_DEFAULT_HP + 2, Constants.SCREEN_HEIGHT);
     this.gui.addWidget(this.guiMessenger);
+
+    this.invetoryPanel = new GuiList(Constants.SCREEN_WIDTH + 3, 0, "Ghiozdan", []);
+    this.gui.addWidget(this.invetoryPanel);
+
     this.scheduler = new ROT.Scheduler.Simple();
     this.scheduler.add(this.player, true);
     this.engine = new ROT.Engine(this.scheduler);
@@ -40,9 +51,11 @@ var Game = {
     this.guiMessenger.message("%c{lime}Bine ai venit, exploratorule!%c{}");
   },
   update: function () {
+    var i;
+
     for (i = 0; i < this.map.actors.length; i++) {
       var actor = this.map.actors[i];
-      if(actor != Game.player)
+      if(actor !== Game.player)
         actor.act();
     }
   },

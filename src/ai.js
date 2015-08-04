@@ -1,9 +1,9 @@
 var Ai = function () {
-  
+
 };
 
 Ai.prototype.update = function (owner) {
-  
+
 };
 
 Ai.prototype.moveOrAttack = function (owner, x, y) {
@@ -25,7 +25,7 @@ PlayerAi.prototype.moveOrAttack = function (owner, x, y) {
     owner.hasMoved = false;
     var i = 0;
     var actors = Game.map.actors;
-    while(i < actors.length && (actors[i].destructible == null || actors[i].destructible.isDead || 
+    while(i < actors.length && (actors[i].destructible == null || actors[i].destructible.isDead ||
           actors[i].x != x || actors[i]. y != y)) {
       i++;
     }
@@ -70,6 +70,9 @@ PlayerAi.prototype.update = function (owner) {
     if(actor && actor.pickable) {
       Game.guiMessenger.message("Da click pe %c{" + actor.fg + "}" + actor.pickable.name + "%c{} pentru a-l colecta.");
     }
+    Game.invetoryPanel.setList(owner.container.inventory);
+  } else if (key - "A".charCodeAt(0) >= 0 && key - "A".charCodeAt(0) <= 26 && owner.container.inventory[key - "A".charCodeAt(0)]) {
+    owner.container.inventory[key - "A".charCodeAt(0)].pickable.use(owner.container.inventory[key - "A".charCodeAt(0)], owner);
   } else {
     Game.status = GAME_STATUS.IDLE;
     var letter = String.fromCharCode(key);
@@ -79,6 +82,9 @@ PlayerAi.prototype.update = function (owner) {
           owner.interactableNear.interactable.interact(owner.interactableNear);
         owner.interactableNear = null;
         break;
+
+      case 'I':
+
     }
   }
   owner.lastKey = null;
@@ -109,7 +115,7 @@ MonsterAi.prototype.moveOrAttack = function (owner, x, y) {
 
 MonsterAi.prototype.update = function (owner) {
   var moveCount = this.moveCount;
-  
+
   if(owner.destructible && owner.destructible.isDead) {
     moveCount = 0;
     return;
