@@ -8,6 +8,7 @@ var Constants = {
   LIGHT_WALL_COLOR: "#aa0",
   LIGHT_GROUND_COLOR: "#660",
   MAX_ROOM_MONSTERS: 3,
+  MAX_ROOM_PICKABLES: 5,
   DISPLAY_OPTIONS: {
     spacing: "1.1",
     fontSize: "13",

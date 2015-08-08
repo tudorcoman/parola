@@ -68,11 +68,11 @@ PlayerAi.prototype.update = function (owner) {
       owner.interactableNear = null;
     }
     if(actor && actor.pickable) {
-      Game.guiMessenger.message("Da click pe %c{" + actor.fg + "}" + actor.pickable.name + "%c{} pentru a-l colecta.");
+      Game.guiMessenger.message("Da click pe %c{" + actor.fg + "}" + actor.name + "%c{} pentru a-l colecta.");
     }
     Game.invetoryPanel.setList(owner.container.inventory);
-  } else if (key - "A".charCodeAt(0) >= 0 && key - "A".charCodeAt(0) <= 26 && owner.container.inventory[key - "A".charCodeAt(0)]) {
-    owner.container.inventory[key - "A".charCodeAt(0)].pickable.use(owner.container.inventory[key - "A".charCodeAt(0)], owner);
+  } else if (key - "0".charCodeAt(0) >= 0 && key - "0".charCodeAt(0) <= 10 && owner.container.inventory[key - "0".charCodeAt(0)]) {
+    owner.container.inventory[key - "0".charCodeAt(0)].pickable.use(owner.container.inventory[key - "0".charCodeAt(0)], owner);
   } else {
     Game.status = GAME_STATUS.IDLE;
     var letter = String.fromCharCode(key);
@@ -82,9 +82,6 @@ PlayerAi.prototype.update = function (owner) {
           owner.interactableNear.interactable.interact(owner.interactableNear);
         owner.interactableNear = null;
         break;
-
-      case 'I':
-
     }
   }
   owner.lastKey = null;

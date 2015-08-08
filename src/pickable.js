@@ -1,9 +1,9 @@
-var Pickable = function (name) {
-  this.name = name;
+var Pickable = function () {
+
 };
 
 Pickable.prototype.pick = function (owner, wearer) {
-  if(wearer.container && wearer.container.add(owner)) {
+  if(Game.map.isInFOV(owner.x, owner.y) && wearer.container && wearer.container.add(owner)) {
     Game.guiMessenger.message("Ai luat %c{" + owner.fg + "}" + owner.name + "%c{}.");
     var index = Game.map.actors.indexOf(owner);
     if(index > -1) {
@@ -17,7 +17,8 @@ Pickable.prototype.pick = function (owner, wearer) {
 
 Pickable.prototype.use = function (owner, wearer) {
   if(wearer.container) {
-    wearer.container.remove();
+    Game.status = GAME_STATUS.NEW_TURN;
+    wearer.container.remove(owner);
     delete owner;
     return true;
   }
@@ -25,7 +26,7 @@ Pickable.prototype.use = function (owner, wearer) {
 };
 
 var PergamentPickable = function () {
-  Pickable.call(this, "Pergament");
+  Pickable.call(this);
 };
 
 PergamentPickable.extend(Pickable);
@@ -36,8 +37,28 @@ PergamentPickable.prototype.pick = function (owner, wearer) {
 
 PergamentPickable.prototype.use = function (owner, wearer) {
   alert("Felicitari! Ai gasit pergamentul! Citeste ce scrie pe el:\n\n \
-  \"Pentru fericitul explorator,\n\nNu a fost usor sa obtii acest document. Si de aceea nu v-a fii usor nici sa aflii parola. \
-  Drept urmare, iti voi zice parola intr-o forma codata: \n\nivnahyrtraqf\n\nTu trebuie sa descoperi algoritmul pentru a decodifica parola. Succes!\"");
+  \"Pentru fericitul explorator,\n\nNu a fost usor sa obtii acest document. Si de aceea nu va fi usor nici sa afli parola. \
+  Drept urmare, iti voi zice parola intr-o forma codata: \n\nivnahyrtraqf\n\nTu trebuie sa descoperi algoritmul prin care parola a fost codificata pentru a decodifica parola. Este un algoritm bine cunoscut in istorie. Succes!\"");
   Game.win();
+  Pickable.prototype.use.call(this, owner, wearer);
+};
+
+var HealerPickable = function (amount) {
+  this.amount = amount;
+};
+
+HealerPickable.extend(Pickable);
+
+HealerPickable.prototype.pick = function (owner, wearer) {
+  Pickable.prototype.pick.call(this, owner, wearer);
+};
+
+HealerPickable.prototype.use = function (owner, wearer) {
+  if (wearer.destructible) {
+    var hp = wearer.destructible.hp + this.amount;
+    if (hp > wearer.destructible.initialHp)
+      hp = wearer.destructible.initialHp;
+    wearer.destructible.hp = hp;
+  }
   Pickable.prototype.use.call(this, owner, wearer);
 };

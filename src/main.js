@@ -10,16 +10,14 @@ var Game = {
   engine: null,
   player: null,
   map : null,
-  actors: [],
   gui: null,
   guiMessenger: null,
   guiHpBar: null,
   scheduler: null,
   showModal: true,
-  pergamentOnMap: false,
   status: GAME_STATUS.IDLE,
 
-  init: function() {
+  init: function () {
     // Init display
     ROT.DEFAULT_WIDTH = Constants.SCREEN_WIDTH + Constants.INVENTORY_PANEL_WIDTH;
     ROT.DEFAULT_HEIGHT = Constants.SCREEN_HEIGHT + Constants.GUI_PANEL_HEIGHT;
@@ -29,7 +27,7 @@ var Game = {
     this.map = new Map(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, "digger");
     this.map.buildMap();
     // Init GUI
-    this.gui = new Gui(0, Constants.SCREEN_HEIGHT);
+    this.gui = new Gui();
     // Init GUI Widgets
     this.guiHpBar = new GuiBar(2, Constants.SCREEN_HEIGHT + 2, Game.player.destructible.hp, "red");
     this.gui.addWidget(this.guiHpBar);
@@ -40,7 +38,7 @@ var Game = {
     this.guiMessenger = new GuiMessageList(this.guiHpBar.x + Constants.PLAYER_DEFAULT_HP + 2, Constants.SCREEN_HEIGHT);
     this.gui.addWidget(this.guiMessenger);
 
-    this.invetoryPanel = new GuiList(Constants.SCREEN_WIDTH + 3, 0, "Ghiozdan", []);
+    this.invetoryPanel = new GuiList(Constants.SCREEN_WIDTH, 0, "Ghiozdan", []);
     this.gui.addWidget(this.invetoryPanel);
 
     this.scheduler = new ROT.Scheduler.Simple();
@@ -66,7 +64,7 @@ var Game = {
   },
   gameOver: function () {
     document.getElementById("wastedaudio").play();
-    $("#overlay").animate({opacity: 0.7}, 7000);
+    $(".overlay").animate({opacity: 0.9}, 7000);
   },
   win: function () {
     $("#confetti").animate({opacity: 1}, 7000);

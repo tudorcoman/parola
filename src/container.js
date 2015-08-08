@@ -12,8 +12,8 @@ Container.prototype.add = function (actor) {
 };
 
 Container.prototype.remove = function (actor) {
-  var index = Game.map.actors.indexOf(actor);
+  var index = this.inventory.indexOf(actor);
   if(index > -1) {
-    Game.map.actors.splice(index, 1);
+    this.inventory.splice(index, 1);
   }
 };

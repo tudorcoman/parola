@@ -1,7 +1,5 @@
 /* Gui - interfata grafica */
-var Gui = function (x, y) {
-  this.x = x;
-  this.y =  y;
+var Gui = function () {
   this.widgets = [];
 };
 
@@ -89,12 +87,12 @@ GuiList.prototype.setList = function (list) {
 };
 
 GuiList.prototype.render = function () {
-  Game.display.draw(this.x, this.y, this._title);
+  Game.display.drawText(this.x, this.y, this._title);
 
   var nextY = this.y + 2;
-  var aCode = "a".charCodeAt(0);
+  var aCode = "0".charCodeAt(0);
   var guiList = this;
   this._list.forEach(function (item, index) {
-    Game.display.draw(guiList.x, nextY + index, String.fromCharCode(aCode + index) + ") " + item.name.capitalize());
+    Game.display.drawText(guiList.x, nextY + index, String.fromCharCode(aCode + index) + ") " + item.name.capitalize());
   });
 };

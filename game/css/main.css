@@ -15,21 +15,6 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.inventoryContainer {
-  opacity: 0;
-  z-index: 3;
-  background-color: black;
-  color: limegreen;
-  font-family: 'Source Code Pro';
-  
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  
-  width: 70%;
-  height: 50%;
-}
 .initModal, .rickroll{
   display: none;
 }
@@ -45,28 +30,28 @@ body {
 .gray {
   color: gray;
 }
-#overlay{
+.overlay{
   z-index: 2;
   position: fixed;
   background-color: black;
-  
+
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  
+
   opacity: 0;
 }
 #confetti{
   z-index: 2;
   position: fixed;
   background-color: black;
-  
+
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  
+
   opacity: 0;
 }
 

@@ -9,8 +9,7 @@ var Map = function (width, height, type) {
   this.tilesInFOV = [];
 };
 
-Map.prototype.buildMap = function() {
-  var freeCells = [];
+Map.prototype.buildMap = function () {
   switch(this.type) {
     case "digger":
       this.creator = new ROT.Map.Digger(this.width, this.height);
@@ -20,7 +19,7 @@ Map.prototype.buildMap = function() {
       break;
   }
   var map = this;
-  var explored = this.explored;
+  var freeCells = [];
   this.creator.create(function(x, y, wall) {
     map.setWall(x, y, wall);
 
@@ -39,15 +38,13 @@ Map.prototype.buildMap = function() {
     }
 
     var doors = this.generateDoors(room, freeCells);
-
     var monsters = this.generateMonsters(freeRoomCells);
+    var items = this.generatePickables(freeRoomCells);
 
-    var doorI;
-    for (doorI = 0; doorI < doors.length; doorI++)
-      this.actors.push(doors[doorI]);
-    var monsterI;
-    for (monsterI = 0; monsterI < monsters.length; monsterI++)
-      this.actors.push(monsters[monsterI]);
+    var map = this;
+    doors.forEach(function (door) { map.actors.push(door); });
+    items.forEach(function (item) { map.actors.push(item); });
+    monsters.forEach(function (monster) { map.actors.push(monster); });
   }
   var randomIndex = ROT.RNG.getUniformInt(0, freeCells.length);
   var coords = freeCells[randomIndex].split(",");
@@ -84,13 +81,36 @@ Map.prototype.generateDoors = function (room, freeCells) {
   return doors;
 };
 
+Map.prototype.generatePickables = function (freeRoomCells) {
+  var pickables = [];
+  var i = 0;
+  var j = 0;
+  var nrPickables = ROT.RNG.getUniformInt(0, Constants.MAX_ROOM_PICKABLES);
+  while (j < nrPickables && i < freeRoomCells.length) {
+    var prob = ROT.RNG.getPercentage();
+    var pickable = null;
+    var x = parseInt(freeRoomCells[i].split(",")[0]);
+    var y = parseInt(freeRoomCells[i].split(",")[1]);
+    if (prob < 50) {
+      pickable = new Actor(x, y, '!', "bautura energizanta", false, "purple", null);
+      pickable.pickable = new HealerPickable(10);
+      pickables.push(pickable);
+      freeRoomCells.splice(i, 1);
+    }
+    i += 2;
+    j ++;
+  }
+
+  return pickables;
+};
+
 Map.prototype.generateMonsters = function (freeRoomCells) {
   var monsters = [];
   var i = 0;
   var j = 0;
   var nrMonsters = (ROT.RNG.getPercentage() * Constants.MAX_ROOM_MONSTERS) / 100;
   while(j < nrMonsters && i < freeRoomCells.length) {
-    var prob = ROT.RNG.getPercentage();
+    var prob = ROT.RNG.getPercentage(); // Probability
     var monster = null;
     var x = parseInt(freeRoomCells[i].split(",")[0]);
     var y = parseInt(freeRoomCells[i].split(",")[1]);

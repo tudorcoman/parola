@@ -23,11 +23,11 @@ Player.prototype.act = function () {
     this.ai.update(this);
     if(Game.status == GAME_STATUS.NEW_TURN)
       Game.update();
+    Game.guiHpBar.setValue(this.destructible.hp);
     Game.render();
   } else {
     Game.gameOver();
   }
-  Game.guiHpBar.setValue(this.destructible.hp);
   return true;
 };
 
@@ -53,7 +53,7 @@ Player.prototype.handleClick = function (e) {
     i++;
   if(i < Game.map.actors.length) {
     pickable = Game.map.actors[i];
-    pickable.pickable.pick(pickable, Game.player);
+    pickable.pickable.pick(pickable, this);
   }
 }
 
