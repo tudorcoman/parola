@@ -37,8 +37,8 @@ PergamentPickable.prototype.pick = function (owner, wearer) {
 
 PergamentPickable.prototype.use = function (owner, wearer) {
   alert("Felicitari! Ai gasit pergamentul! Citeste ce scrie pe el:\n\n \
-  \"Pentru fericitul explorator,\n\nNu a fost usor sa obtii acest document. Si de aceea nu va fi usor nici sa afli parola. \
-  Drept urmare, iti voi zice parola intr-o forma codata: \n\nivnahyrtraqf\n\nTu trebuie sa descoperi algoritmul prin care parola a fost codificata pentru a decodifica parola. Este un algoritm bine cunoscut in istorie. Succes!\"");
+  \"Pentru fericitul explorator,\n\nNu a fost usor sa obtii acest document. Ai dovedit ca esti capabil de a pastra secretul si a intra in Fratia Parolei (The Fellowship of the Wi-Fi Password). \
+  Drept urmare, iti voi zice parola: \n\n" + (Math.random() + 1).toString(36).substring(7) + "\n\nTu trebuie sa nu spui altora algoritmul prin care ai reusit sa ajungi la finalul acestui joc si sa nu mentionezi despre Fratia Parolei. Succes!\"");
   Game.win();
   Pickable.prototype.use.call(this, owner, wearer);
 };

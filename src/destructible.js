@@ -20,7 +20,7 @@ Destructible.prototype.takeDamage = function (owner, actor, hpAmount) {
       targetDmg = 0;
     this.hp -= targetDmg;
     if(this.hp <= 0) {
-      if (owner.name != "player")
+      if (owner.name != numeleJucatorului)
         Game.guiMessenger.message("%c{" + owner.fg + "}" + owner.name + "%c{} a lesinat.†");
       else
         Game.guiMessenger.message("Ai fost prins");
