@@ -3,7 +3,8 @@
   <head>
     <title>Gaseste pergamentul</title>
     <meta charset="utf-8">
-    <script>numeleJucatorului = "<?php echo $_POST['numeleJucatorului']; ?>"; </script>
+    <script>numeleJucatorului = "<?php $numeleJucatorului = $_POST['numeleJucatorului']; echo $numeleJucatorului; ?>"; </script>
+    <script src="other.js"></script>
     <script src="lib/jQuery.min.js"></script>
     <script src="lib/vex/vex.combined.min.js"></script>
     <script>vex.defaultOptions.className = 'vex-theme-bottom-right-corner';</script>
@@ -40,7 +41,7 @@
     </header>
     <div class="gameContainer"></div>
     <div class="initModal">
-      <h3>Bun venit, exploratorule!</h3>
+      <h3>Bun venit, <?php echo $numeleJucatorului; ?>!</h3>
       <p>
         Tu esti un <span class="bold lime">elev curajos</span> care a intrat in <span class="bold gray">catacombele de sub scoala</span> pentru a gasi <span class="bold cyan">pergamentul magic</span> cu parola de la WI-FI.
       </p>

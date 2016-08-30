@@ -46,7 +46,7 @@ var Game = {
     this.engine = new ROT.Engine(this.scheduler);
     this.engine.start();
 
-    this.guiMessenger.message("%c{lime}Bine ai venit, exploratorule!%c{}");
+    this.guiMessenger.message("%c{lime}Bine ai venit, " + numeleJucatorului + "!%c{}");
   },
   update: function () {
     var i;
@@ -65,6 +65,9 @@ var Game = {
   gameOver: function () {
     document.getElementById("wastedaudio").play();
     $(".overlay").animate({opacity: 0.9}, 7000);
+    setTimeout(function() {
+      window.location.href = 'index.html';
+    }, 8000);
   },
   win: function () {
     $("#confetti").animate({opacity: 1}, 7000);
