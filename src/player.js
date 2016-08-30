@@ -91,7 +91,7 @@ function createPlayer(freeCells) {
   var coords = freeCells[i].split(",");
   var x = parseInt(coords[0]);
   var y = parseInt(coords[1]);
-  Game.player = new Player(x, y, '@', "player", true, "white", Constants.GROUND_COLOR);
+  Game.player = new Player(x, y, '@', numeleJucatorului, true, "white", Constants.GROUND_COLOR);
   Game.player.destructible = new Destructible(Constants.PLAYER_DEFAULT_HP, 2, "jucator lesinat", "%", "black", "white");
   Game.player.attacker = new Attacker(5);
   Game.player.ai = new PlayerAi();

@@ -1,7 +1,10 @@
 ## Parola
-#### Un joc care poate fii jucat in browser
-(proiectul la info :))
+#### Un joc care poate fi jucat in browser
 
 ### Cum se joaca?
 
-Descarci sursa si deschizi fisierul index.html din folderul `game`.
+Sagetile sunt folosite pentru a te deplasa.
+E este folosit pentru a interactiona cu un obiect.
+Click este folosit pentru a colecta un obiect.
+Numerele (0, 1, ...) sunt folosite pentru a deschide obiecte din ghiozdan.
+

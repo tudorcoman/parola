@@ -1,7 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Te redirectionez...</title>
-    <meta http-equiv="refresh" content="0; url=game/" />
+    <title>Gaseste parola</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="lib/vex/vex.css" />
+    <link rel="stylesheet" href="lib/vex/vex-theme-bottom-right-corner.css" />
+    <link rel="stylesheet" href="lib/vex/vex-theme-flat-attack.css" />
   </head>
+
+  <body>
+    <header>
+      <h3>Gaseste pergamentul</h3>
+    </header>
+    <form action="game.php" enctype="multipart/form-data" method="post">
+      <label for="numeleJucatorului"> Nume: </label>
+      <input type="text" id="numeleJucatorului" name="numeleJucatorului"/>
+      <input type="submit" value="Deschide jocul" />
+    </form>
+  </body>
 </html>
