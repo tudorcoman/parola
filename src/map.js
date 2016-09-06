@@ -1,4 +1,4 @@
-/* Map - harta jocului. Hiecare harta tine minte actorii de pe ea */
+/* Map - harta jocului. Fiecare harta tine minte actorii de pe ea */
 var Map = function (width, height, type) {
   this.width = width || ROT.DEFAULT_WIDTH;
   this.height = height || ROT.DEFAULT_HEIGHT;
@@ -50,7 +50,7 @@ Map.prototype.buildMap = function () {
   var coords = freeCells[randomIndex].split(",");
   var pergx = parseInt(coords[0]);
   var pergy = parseInt(coords[1]);
-  console.log(pergx + "," + pergy);
+  //console.log(pergx + "," + pergy);
   var pergamentActor = new Actor(pergx, pergy, "=", "pergament", false, "white", null);
   var pergamentItem = new PergamentPickable();
   pergamentActor.pickable = pergamentItem;

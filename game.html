@@ -3,13 +3,36 @@
   <head>
     <title>Gaseste pergamentul</title>
     <meta charset="utf-8">
-    <script>numeleJucatorului = "<?php $numeleJucatorului = $_POST['numeleJucatorului']; echo $numeleJucatorului; ?>"; </script>
-    <script src="other.js"></script>
+
     <script src="lib/jQuery.min.js"></script>
     <script src="lib/vex/vex.combined.min.js"></script>
     <script>vex.defaultOptions.className = 'vex-theme-bottom-right-corner';</script>
     <script src="lib/egg.js"></script>
     <script src="lib/rot.js"></script>
+
+    <script>
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+
+      // I don't understand the RegEx above so I can credit that to Stack Overflow user jolly.exe
+      numeleJucatorului = getParameterByName('numeleJucatorului');
+    </script>
+
+    <!-- One doesn't simply use Javascript when you can use JQuery -->
+    <script>
+      $(document).ready(function() {
+        $(".initModal #numeleJucatorului").html(numeleJucatorului);
+      });
+    </script>
+
     <script src="src/constants.js"></script>
     <script src="src/interactable.js"></script>
     <script src="src/destructible.js"></script>
@@ -21,7 +44,6 @@
     <script src="src/actor.js"></script>
     <script src="src/player.js"></script>
     <script src="src/gui.js"></script>
-    <script src="src/dialog.js"></script>
     <script src="src/main.js"></script>
     <script src="src/flakes.js"></script>
     <link rel="stylesheet" href="css/main.css" />
@@ -40,8 +62,8 @@
       <h3>Gaseste pergamentul</h3>
     </header>
     <div class="gameContainer"></div>
-    <div class="initModal">
-      <h3>Bun venit, <?php echo $numeleJucatorului; ?>!</h3>
+    <div class="initModal" id="initModal">
+      <h3>Bun venit, <span id="numeleJucatorului"></span> !</h3>
       <p>
         Tu esti un <span class="bold lime">elev curajos</span> care a intrat in <span class="bold gray">catacombele de sub scoala</span> pentru a gasi <span class="bold cyan">pergamentul magic</span> cu parola de la WI-FI.
       </p>
