@@ -51,7 +51,7 @@ Map.prototype.buildMap = function () {
   var pergx = parseInt(coords[0]);
   var pergy = parseInt(coords[1]);
   //console.log(pergx + "," + pergy);
-  var pergamentActor = new Actor(pergx, pergy, "=", "pergament", false, "white", null);
+  var pergamentActor = new Actor(pergx, pergy, "📰", "pergament", false, "white", null);
   var pergamentItem = new PergamentPickable();
   pergamentActor.pickable = pergamentItem;
   this.actors.push(pergamentActor);
@@ -64,7 +64,7 @@ Map.prototype.generateDoors = function (room, freeCells) {
   var noDoor = 0;
   room.getDoors(function (x, y) {
     noDoor++;
-    var doorActor = new Actor(x, y, "+", "%c{#a52a2a}usa%c{}", true, "white", "brown");
+    var doorActor = new Actor(x, y, "🚪", "%c{#a52a2a}usa%c{}", true, "white", "brown");
 
     doorActor.interactable = new Door(doorActor);
     var coords = x + "," + y;
@@ -92,7 +92,7 @@ Map.prototype.generatePickables = function (freeRoomCells) {
     var x = parseInt(freeRoomCells[i].split(",")[0]);
     var y = parseInt(freeRoomCells[i].split(",")[1]);
     if (prob < 50) {
-      pickable = new Actor(x, y, '!', "bautura energizanta", false, "purple", null);
+      pickable = new Actor(x, y, '🍷', "bautura energizanta", false, "purple", null);
       pickable.pickable = new HealerPickable(10);
       pickables.push(pickable);
       freeRoomCells.splice(i, 1);
@@ -115,12 +115,12 @@ Map.prototype.generateMonsters = function (freeRoomCells) {
     var x = parseInt(freeRoomCells[i].split(",")[0]);
     var y = parseInt(freeRoomCells[i].split(",")[1]);
     if(prob < 80) {
-      monster = new Actor(x, y, 'p', "paznic", true, "blue", null);
+      monster = new Actor(x, y, 'ᗣ', "paznic", true, "blue", null);
       monster.destructible = new Destructible(3, 1, "paznic lesinat", '%', "white", "blue");
       monster.attacker = new Attacker(3);
     } else {
-      monster = new Actor(x, y, 'D', "directoare", true, "red", null);
-      monster.destructible = new Destructible(5, 1, "directoare lesinate", '%', "red");
+      monster = new Actor(x, y, 'ᗣ', "directoare", true, "red", null);
+      monster.destructible = new Destructible(5, 1, "directoare lesinata", '%', "red");
       monster.attacker = new Attacker(5);
     }
     monster.ai = new MonsterAi();

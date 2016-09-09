@@ -13,10 +13,19 @@
     <header>
       <h3>Gaseste pergamentul</h3>
     </header>
-    <form action="game.html" method="get">
-      <label for="numeleJucatorului"> Nume: </label>
-      <input type="text" id="numeleJucatorului" name="numeleJucatorului"/>
-      <input type="submit" value="Deschide jocul" />
-    </form>
+
+      <form action="game.html" method="get">
+        <input type="text" placeholder="Nume" id="numeleJucatorului" name="numeleJucatorului"/>
+        <br>
+        <input list="sex" placeholder="Sex" name="sex">
+        <datalist id="sex">
+          <option value="Baiat">
+          <option value="Fata">
+        </datalist>
+        <br>
+        <input type="submit" value="Deschide jocul" />
+      </form>
+    </div>
+
   </body>
 </html>
