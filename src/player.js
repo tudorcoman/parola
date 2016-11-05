@@ -92,13 +92,14 @@ function createPlayer(freeCells) {
   var x = parseInt(coords[0]);
   var y = parseInt(coords[1]);
   var car = 'a';
-  if(sex == 'Baiat')
+  if(personaj == 'Baiat')
     car = '👨';
-  else if(sex == 'Fata')
+  else if(personaj == 'Fata')
     car = '👩';
   Game.player = new Player(x, y, car, numeleJucatorului, true, "white", Constants.GROUND_COLOR);
   Game.player.destructible = new Destructible(Constants.PLAYER_DEFAULT_HP, 2, "jucator lesinat", "%", "black", "white");
-  Game.player.attacker = new Attacker(5);
+
+  Game.player.attacker = new Attacker(dificultate + 2);
   Game.player.ai = new PlayerAi();
   Game.player.container = new Container(26);
   Game.map.actors.push(Game.player);
