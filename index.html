@@ -3,35 +3,49 @@
   <head>
     <title>Gaseste parola</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/login.css" />
     <link rel="stylesheet" href="lib/vex/vex.css" />
     <link rel="stylesheet" href="lib/vex/vex-theme-bottom-right-corner.css" />
     <link rel="stylesheet" href="lib/vex/vex-theme-flat-attack.css" />
+    <script src="lib/jQuery.min.js"></script>
+    <script>
+      $('.message a').click(function(){
+        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+      });
+
+      $
+    </script>
   </head>
 
   <body>
-    <header>
-      <h3>Gaseste pergamentul</h3>
-    </header>
-
-      <form action="game.html" method="get">
-        <input type="text" placeholder="Nume" id="numeleJucatorului" name="numeleJucatorului"/>
-        <br>
-        <input list="personaj" placeholder="Personaj" name="personaj">
-        <datalist id="personaj">
-          <option value="Baiat">
-          <option value="Fata">
-        </datalist>
-        <br>
-        <input list="dificultate" placeholder="Dificultate" name="dificultate">
-        <datalist id="dificultate">
-          <option value="Easy">
-          <option value="Medium">
-          <option value="Hard">
-        </datalist>
-        <br>
-        <input type="submit" value="Deschide jocul" />
-      </form>
+    <div class="login-page">
+      <div class="form">
+        <!--<form class="register-form">
+          <input type="text" placeholder="name"/>
+          <input type="password" placeholder="password"/>
+          <input type="text" placeholder="email address"/>
+          <button>create</button>
+          <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>-->
+        <form class="login-form" action="game.html" method="get">
+          <input type="text" placeholder="username"/>
+          <input list="personaj" placeholder="personaj" name="personaj">
+          <datalist id="personaj">
+            <option value="Baiat">
+            <option value="Fata">
+          </datalist>
+          <input list="dificultate" placeholder="dificultate" name="dificultate">
+          <datalist id="dificultate">
+            <option value="Easy">
+            <option value="Medium">
+            <option value="Hard">
+          </datalist>
+          <!--<input class="button" type="submit" value="login" />-->
+          <!--<input type="password" placeholder="password"/>-->
+          <button type="submit">login</button>
+          <!--<p class="message">Not registered? <a href="#">Create an account</a></p>-->
+        </form>
+      </div>
     </div>
 
   </body>
