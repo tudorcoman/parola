@@ -1,4 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
 @font-face {
   font-family: 'Source Code Pro';
   src: url('sourcecodepro.otf');
@@ -6,9 +8,22 @@
 
 body {
   font-family: 'Open Sans', 'Arial';
-  background-color: #00030c;
+  /*background-color: #00030c;*/
+  background: #76b852; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+  background: -moz-linear-gradient(right, #76b852, #8DC26F);
+  background: -o-linear-gradient(right, #76b852, #8DC26F);
+  background: linear-gradient(to left, #76b852, #8DC26F);
   color: white;
 }
+.title {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-weight: bold;
+  font-size: 500%;
+  text-align: center;
+}
+
 .gameContainer {
   position: fixed;
   top: 50%;
@@ -22,13 +37,13 @@ body {
   font-weight: bold;
 }
 .cyan {
-  color: darkturquoise;
+  color: purple;
 }
 .lime {
-  color: chartreuse;
+  color: blue;
 }
 .gray {
-  color: gray;
+  color: brown;
 }
 .overlay{
   z-index: 2;

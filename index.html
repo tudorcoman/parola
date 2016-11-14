@@ -27,8 +27,8 @@
           <button>create</button>
           <p class="message">Already registered? <a href="#">Sign In</a></p>
         </form>-->
-        <form class="login-form" action="game.html" method="get">
-          <input type="text" placeholder="username"/>
+        <form enctype="multipart/form-data" method="get" class="login-form" action="game.html">
+          <input type="text" placeholder="username" name="numeleJucatorului">
           <input list="personaj" placeholder="personaj" name="personaj">
           <datalist id="personaj">
             <option value="Baiat">
